@@ -2,6 +2,7 @@ package repository
 
 import (
 	"TgBot/cmd/app/output/persist/entity"
+	"TgBot/cmd/app/output/persist/mapper"
 	"TgBot/cmd/core/service/port"
 	"context"
 	"errors"
@@ -10,11 +11,15 @@ import (
 
 type StudentRepository struct {
 	BaseRepository
-	db *gorm.DB
+	db            *gorm.DB
+	studentMapper *mapper.StudentMapper
 }
 
-func NewStudentRepository(db *gorm.DB, baseRepository BaseRepository) port.IStudentStorage {
-	return &StudentRepository{baseRepository, db}
+func NewStudentRepository(
+	db *gorm.DB,
+	baseRepository BaseRepository,
+	studentMapper *mapper.StudentMapper) port.IStudentStorage {
+	return &StudentRepository{baseRepository, db, studentMapper}
 }
 
 func (repo *StudentRepository) SaveOrUpdateStudent(ctx context.Context, student *entity.Student) error {

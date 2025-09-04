@@ -5,12 +5,12 @@ import (
 )
 
 type Lesson struct {
-	ID       uint
-	Name     string
-	Teacher  int
-	Start    time.Time
-	End      time.Time
-	Students []*Student `gorm:"many2many:student_to_lesson;"`
+	ID        uint
+	Name      string
+	TeacherId int
+	Start     time.Time
+	End       time.Time
+	Students  []Student `gorm:"many2many:student_to_lesson;"`
 }
 
 type Offset struct {
@@ -23,7 +23,7 @@ type Student struct {
 	Name       string
 	TgId       int
 	TgUsername string
-	Lessons    []*Lesson `gorm:"many2many:student_to_lesson;"`
+	Lessons    []Lesson `gorm:"many2many:student_to_lesson;"`
 }
 
 type Teacher struct {
