@@ -8,5 +8,5 @@ type Student struct {
 	Name       string
 	TgId       int
 	TgUsername string
-	Lessons    []*Lesson `gorm:"many2many:student_to_lesson;"`
+	Lessons    []Lesson `gorm:"many2many:student_to_lesson;"`
 }
