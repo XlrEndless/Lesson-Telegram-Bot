@@ -84,11 +84,13 @@ func (handler *RequestHandler) handleQuery(ctx context.Context, update model.Upd
 	if ok {
 		message, err = strategy(ctx, update)
 		if err == nil {
+			message.NeedAnswer = true
+			message.MessageId = update.Message.MessageId
+			message.CallbackData = model.CallbackData{CallbackId: query.Id}
 			if message.MarkupType == constant.Inline {
 				message.MessageType = constant.Change
-				message.CallbackData = model.CallbackData{CallbackId: query.Id}
-				message.MessageId = update.Message.MessageId
 			} else {
+				message.ShouldDelete = true
 				message.MessageType = constant.New
 			}
 		}

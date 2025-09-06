@@ -31,7 +31,7 @@ func (repo *PlaceholderRepository) GetAll(ctx context.Context) ([]model.Placehol
 	db := repo.resolveTransaction(ctx)
 	var entities []entity.Placeholder
 	err := db.Find(&entities).Error
-	placeholders := make([]model.Placeholder, len(entities))
+	placeholders := make([]model.Placeholder, 0)
 	for _, ent := range entities {
 		placeholders = append(placeholders, entity.MapPlaceholderToModel(ent))
 	}

@@ -1,5 +1,7 @@
 package dto
 
+import "TgBot/cmd/core/model"
+
 type ReplyKeyboardMarkup struct {
 	ReplyKeyboardButton   [][]ReplyKeyboardButton `json:"keyboard"`
 	ResizeKeyboard        bool                    `json:"resize_keyboard"`
@@ -25,4 +27,54 @@ type KeyboardButtonRequestUsers struct {
 
 type KeyboardButtonRequestChat struct {
 	RequestId int `json:"request_id"`
+}
+
+func MapReplyKeyboardMarkupToModel(input ReplyKeyboardMarkup) model.ReplyKeyboardMarkup {
+	replyKeyboardButtonsDto := input.ReplyKeyboardButton
+	replyKeyboardButtons := make([][]model.ReplyKeyboardButton, 0)
+	for _, arr := range replyKeyboardButtonsDto {
+		layout := make([]model.ReplyKeyboardButton, 0)
+		for _, button := range arr {
+			layout = append(layout, MapReplyKeyboardButtonToModel(button))
+		}
+		replyKeyboardButtons = append(replyKeyboardButtons, layout)
+	}
+	return model.ReplyKeyboardMarkup{
+		ReplyKeyboardButton:   replyKeyboardButtons,
+		ResizeKeyboard:        input.ResizeKeyboard,
+		OneTimeKeyboard:       input.OneTimeKeyboard,
+		InputFieldPlaceholder: input.InputFieldPlaceholder,
+		Selective:             input.Selective,
+	}
+}
+
+func MapReplyKeyboardMarkupToDto(input model.ReplyKeyboardMarkup) ReplyKeyboardMarkup {
+	replyKeyboardButtons := input.ReplyKeyboardButton
+	replyKeyboardButtonsDto := make([][]ReplyKeyboardButton, 0)
+	for _, arr := range replyKeyboardButtons {
+		layout := make([]ReplyKeyboardButton, 0)
+		for _, button := range arr {
+			layout = append(layout, MapReplyKeyboardButtonToDto(button))
+		}
+		replyKeyboardButtonsDto = append(replyKeyboardButtonsDto, layout)
+	}
+	return ReplyKeyboardMarkup{
+		ReplyKeyboardButton:   replyKeyboardButtonsDto,
+		ResizeKeyboard:        input.ResizeKeyboard,
+		OneTimeKeyboard:       input.OneTimeKeyboard,
+		InputFieldPlaceholder: input.InputFieldPlaceholder,
+		Selective:             input.Selective,
+	}
+}
+
+func MapReplyKeyboardButtonToModel(input ReplyKeyboardButton) model.ReplyKeyboardButton {
+	return model.ReplyKeyboardButton{
+		Text: input.Text,
+	}
+}
+
+func MapReplyKeyboardButtonToDto(input model.ReplyKeyboardButton) ReplyKeyboardButton {
+	return ReplyKeyboardButton{
+		Text: input.Text,
+	}
 }
