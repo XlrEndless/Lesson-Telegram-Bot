@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"TgBot/cmd/app/output/persist/mapper"
 	"TgBot/cmd/core/model"
 	"TgBot/cmd/core/service/port"
 	"context"
@@ -11,15 +10,14 @@ import (
 
 type LessonRepository struct {
 	BaseRepository
-	db           *gorm.DB
-	lessonMapper *mapper.LessonMapper
+	db *gorm.DB
 }
 
 func NewLessonRepository(
 	db *gorm.DB,
 	baseRepository BaseRepository,
-	lessonMapper *mapper.LessonMapper) port.ILessonStorage {
-	return &LessonRepository{baseRepository, db, lessonMapper}
+) port.ILessonStorage {
+	return &LessonRepository{baseRepository, db}
 }
 
 func (repo *LessonRepository) GetById(ctx context.Context, lessonId int) (model.Lesson, error) {

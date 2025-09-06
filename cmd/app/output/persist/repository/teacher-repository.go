@@ -2,7 +2,6 @@ package repository
 
 import (
 	"TgBot/cmd/app/output/persist/entity"
-	"TgBot/cmd/app/output/persist/mapper"
 	"TgBot/cmd/core/service/port"
 	"context"
 	"gorm.io/gorm"
@@ -10,15 +9,14 @@ import (
 
 type TeacherRepository struct {
 	BaseRepository
-	db            *gorm.DB
-	teacherMapper *mapper.TeacherMapper
+	db *gorm.DB
 }
 
 func NewTeacherRepository(
 	db *gorm.DB,
 	baseRepository BaseRepository,
-	teacherMapper *mapper.TeacherMapper) port.ITeacherStorage {
-	return &TeacherRepository{baseRepository, db, teacherMapper}
+) port.ITeacherStorage {
+	return &TeacherRepository{baseRepository, db}
 }
 
 func (repo *TeacherRepository) GetTeacherById(ctx context.Context, id int) (entity.Teacher, error) {
