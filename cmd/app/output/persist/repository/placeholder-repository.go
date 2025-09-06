@@ -2,7 +2,6 @@ package repository
 
 import (
 	"TgBot/cmd/app/output/persist/entity"
-	"TgBot/cmd/app/output/persist/mapper"
 	"TgBot/cmd/core/model"
 	"TgBot/cmd/core/service/port"
 	"context"
@@ -11,22 +10,20 @@ import (
 
 type PlaceholderRepository struct {
 	BaseRepository
-	db                *gorm.DB
-	placeholderMapper *mapper.PlaceholderMapper
+	db *gorm.DB
 }
 
 func NewPlaceholderRepository(
 	db *gorm.DB,
-	baseRepository BaseRepository,
-	placeholderMapper *mapper.PlaceholderMapper) port.IPlaceholderStorage {
-	return &PlaceholderRepository{baseRepository, db, placeholderMapper}
+	baseRepository BaseRepository) port.IPlaceholderStorage {
+	return &PlaceholderRepository{baseRepository, db}
 }
 
 func (repo *PlaceholderRepository) GetByUseFor(ctx context.Context, useFor string) (model.Placeholder, error) {
 	db := repo.resolveTransaction(ctx)
 	e := entity.Placeholder{}
 	err := db.Where("use_for = ?", useFor).First(&e).Error
-	placeholder := repo.placeholderMapper.MapToModel(e)
+	placeholder := entity.MapPlaceholderToModel(e)
 	return placeholder, err
 }
 
@@ -36,7 +33,7 @@ func (repo *PlaceholderRepository) GetAll(ctx context.Context) ([]model.Placehol
 	err := db.Find(&entities).Error
 	placeholders := make([]model.Placeholder, len(entities))
 	for _, ent := range entities {
-		placeholders = append(placeholders, repo.placeholderMapper.MapToModel(ent))
+		placeholders = append(placeholders, entity.MapPlaceholderToModel(ent))
 	}
 	return placeholders, err
 }
