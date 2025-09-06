@@ -13,6 +13,12 @@ var commandsMap = map[string]bool{
 	constant.RegToLessonLabel:     true,
 }
 
+type UpdatesResponse[T any] struct {
+	Ok          bool   `json:"ok"`
+	Description string `json:"description"`
+	Result      T      `json:"result"`
+}
+
 type Update struct {
 	ID                 int
 	Message            InputMessage

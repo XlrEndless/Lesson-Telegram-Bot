@@ -21,6 +21,7 @@ const (
 	EditMessageMethod       = "/editMessage"
 	EditInlineMessageMethod = "/editMessageReplyMarkup"
 	AnswerCallBackMethod    = "/answerCallbackQuery"
+	DeleteMessageMethod     = "/deleteMessage"
 	ContentType             = "application/json"
 	ConfigFilePath          = "app-config.yaml"
 )

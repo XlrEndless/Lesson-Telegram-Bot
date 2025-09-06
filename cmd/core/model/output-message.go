@@ -7,6 +7,8 @@ type OutputMessage[T any] struct {
 	ReplyMarkup  T
 	MessageType  string
 	MarkupType   string
+	NeedAnswer   bool
+	ShouldDelete bool
 	CallbackData CallbackData
 }
 
